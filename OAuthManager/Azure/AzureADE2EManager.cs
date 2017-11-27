@@ -11,8 +11,6 @@ namespace TTOAuthManager.Azure
 {
     public class AzureADE2EManager
     {
-        public string LoggedInUserEmail { get; set; }
-        public string Scope { get; set; }
         private string _stateId;
         public AuthConfig Config { get; set; }
 
@@ -25,7 +23,7 @@ namespace TTOAuthManager.Azure
             Config = config;
             Config.OAuthVersion = "oauth2/v2.0";
 
-            _stateIdManager = new StateIdManager(dbmanager,LoggedInUserEmail,Scope);
+            _stateIdManager = new StateIdManager(dbmanager,Config.LoggedInUserEmail,Config.Scope);
             _stateId = _stateIdManager.GetStateId();
 
             _localStorage = new OAuthLocalStorageManager(Config,dbmanager);
