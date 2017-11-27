@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuthManager", "OAuthManager\OAuthManager.csproj", "{480D5B71-B304-4E14-9D3A-3990DFF4A9BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTOAuthManager", "OAuthManager\TTOAuthManager.csproj", "{480D5B71-B304-4E14-9D3A-3990DFF4A9BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

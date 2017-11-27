@@ -7,8 +7,8 @@
     <ProjectGuid>{480D5B71-B304-4E14-9D3A-3990DFF4A9BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OAuthManager</RootNamespace>
-    <AssemblyName>OAuthManager</AssemblyName>
+    <RootNamespace>TTOAuthManager</RootNamespace>
+    <AssemblyName>TTOAuthManager</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

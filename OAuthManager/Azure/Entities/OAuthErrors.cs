@@ -1,4 +1,4 @@
-﻿namespace OAuthManager.Azure.Entities
+﻿namespace TTOAuthManager.Azure.Entities
 {
     public enum OAuthErrors
     {

@@ -1,4 +1,4 @@
-﻿namespace OAuthManager
+﻿namespace TTOAuthManager
 {
     public enum TokenRetrivalType
     {

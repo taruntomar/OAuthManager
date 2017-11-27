@@ -1,12 +1,12 @@
 ﻿using DatabaseDealer;
-using OAuthManager.Azure.Entities;
+using TTOAuthManager.Azure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OAuthManager
+namespace TTOAuthManager
 {
     internal class OAuthLocalStorageManager
     {

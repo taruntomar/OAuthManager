@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OAuthManager.Azure
+namespace TTOAuthManager.Azure
 {
     class StateIdManager
     {
