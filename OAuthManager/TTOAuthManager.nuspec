@@ -8,7 +8,10 @@
     <authors>Tarun Kumar Tomar</authors>
 
     <!-- Optional elements -->
-    <!-- ... -->
+    <dependencies>
+        <dependency id="db-dealer" version="1.0.6" />
+    </dependencies>
+    
     </metadata>
     <!-- Optional 'files' node -->
     <files>
