@@ -6,14 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace TTOAuthManager
 {
-    class AzureADAuthManager
+    public class AzureADAuthManager
     {
         private AuthConfig _authConfig;
         private string _authEndPoint;
         private string _tokenEndPoint;
+        private RestClient _client;
+        private RestRequest _request;
+
         public AzureADAuthManager(AuthConfig config)
         {
             _authConfig = new AuthConfig();
@@ -24,27 +28,27 @@ namespace TTOAuthManager
 
         public AzureADAuthRestResponse<AccessTokenClass, OAuthError> GetAccessToken(string code, TokenRetrivalType tokenRetrivalType)
         {
-            RestClient client = new RestClient(_tokenEndPoint);
-            RestRequest request = new RestRequest(Method.POST);
-            request.AddParameter("client_id", _authConfig.ClientId);
-            request.AddParameter("scope", _authConfig.Scope);
+            _client = new RestClient(_tokenEndPoint);
+            _request = new RestRequest(Method.POST);
+            _request.AddParameter("client_id", _authConfig.ClientId);
+            _request.AddParameter("scope", _authConfig.Scope);
 
             if (tokenRetrivalType == TokenRetrivalType.AuthorizationCode)
             {
-                request.AddParameter("code", code);
-                request.AddParameter("grant_type", "authorization_code");
+                _request.AddParameter("code", code);
+                _request.AddParameter("grant_type", "authorization_code");
             }
             else if (tokenRetrivalType == TokenRetrivalType.RefreshToken)
             {
-                request.AddParameter("refresh_token", code);
-                request.AddParameter("grant_type", "refresh_token");
+                _request.AddParameter("refresh_token", code);
+                _request.AddParameter("grant_type", "refresh_token");
             }
 
-            request.AddParameter("redirect_uri", _authConfig.RedirectURL);
+            _request.AddParameter("redirect_uri", _authConfig.RedirectURL);
 
-            request.AddParameter("client_secret",_authConfig.ClientSecret);
+            _request.AddParameter("client_secret",_authConfig.ClientSecret);
 
-            IRestResponse response = client.Execute(request);
+            IRestResponse response = _client.Execute(_request);
             AzureADAuthRestResponse<AccessTokenClass, OAuthError> resp = new AzureADAuthRestResponse<AccessTokenClass, OAuthError>();
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
@@ -59,6 +63,29 @@ namespace TTOAuthManager
                 resp.IsSucceeded = true;
             }
             return resp;
+        }
+
+        public string GetAccessToken_FromClientCredential()
+        {
+            _client.BaseUrl = new Uri(_tokenEndPoint);
+            _request.Parameters.Clear();
+            _request.Method = Method.POST;
+            _request.AddParameter("client_id", _authConfig.ClientId);
+            _request.AddParameter("grant_type", "client_credentials");
+            _request.AddParameter("resource", _authConfig.Resource);
+            _request.AddParameter("client_secret", _authConfig.ClientSecret);
+            _request.AddParameter("scope", _authConfig.Scope);
+
+            var response = _client.Execute(_request);
+            JObject obj = JObject.Parse(response.Content);
+
+            string x = obj["access_token"].ToString();
+            return x;
+
+        }
+        public void SetAuthorizationHeader(RestRequest request,string bearer)
+        {
+            request.AddHeader("authorization", "bearer " + bearer);
         }
         public bool validateToken(AccessTokenClass token)
         {

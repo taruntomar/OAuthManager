@@ -16,6 +16,8 @@ namespace TTOAuthManager
         public string RedirectURL { get; set; }
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
+        public string Resource { get; set; }
+
 
     }
 }
