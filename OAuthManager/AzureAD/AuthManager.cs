@@ -19,11 +19,11 @@ namespace Open.OAuthManager.AzureAD
             Config = config;
             Config.OAuthVersion = "oauth2/v2.0";
 
-            _stateIdManager = new StateManager(dbmanager,Config.LoggedInUserEmail,Config.Scope);
-            _stateId = _stateIdManager.GetStateIdForCurrentUser();
+            _stateIdManager = new StateManager(Config.LoggedInUserEmail,Config.Scope);
+            _stateId = _stateIdManager.GetStateIdForCurrentUser(dbmanager);
 
             _localStorage = new LocalStorageManager(Config,dbmanager);
-            _authenticator = new Authenticator(Config);
+            _authenticator = new Authenticator();
 
         }
         public AzureADAuthRestResponse<AccessTokenClass, OAuthErrors> GetAccessToken()

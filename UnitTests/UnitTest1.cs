@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Open.OAuthManager.AzureAD;
 
 namespace UnitTests
 {
@@ -9,6 +10,8 @@ namespace UnitTests
         [TestMethod]
         public void TestMethod1()
         {
+          
+
         }
     }
 }

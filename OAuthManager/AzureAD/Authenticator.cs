@@ -2,36 +2,55 @@
 using Open.OAuthManager.Azure.Entities;
 using RestSharp;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace Open.OAuthManager.AzureAD
 {
+    public enum EndPointType
+    {
+        authorize,
+        token
+    }
     public class Authenticator
     {
-        private AuthConfig _authConfig;
-        private string _authEndPoint;
-        private string _tokenEndPoint;
-        private RestClient _client;
+        public AuthConfig Config { get; set; }
+        
         private RestRequest _request;
 
-        public Authenticator(AuthConfig config)
+        public Authenticator()
         {
-            _authConfig = new AuthConfig();
-            _authEndPoint = string.Format("{0}/{1}/{2}/authorize", _authConfig.baseUrl,_authConfig.TanentId, _authConfig.OAuthVersion);
-            _tokenEndPoint = string.Format("{0}/{1}/{2}/token", _authConfig.baseUrl, _authConfig.TanentId, _authConfig.OAuthVersion);
+            Config = new AuthConfig();
+            Config.OAuthVersion = "oauth2/v2.0";
+        }
+        
+        private string  GetEndPoint(EndPointType endPointType)
+        {
+            string endpointype = endPointType == EndPointType.authorize ? "authorize" : "token";
+            return string.Format("{0}/{1}/{2}/{3}", Config.baseUrl, Config.TanentId, Config.OAuthVersion, endpointype); 
+        }
 
+        public string GetAuthorizationCodeUrl(string baseUrl,string tanentId,string clientId,string scope,string response_type,string redirect_uri,string response_mode)
+        {
+            Config.baseUrl = baseUrl;
+            Config.TanentId = tanentId;
+            Config.Scope = scope;
+            string stateId = new StateManager(Config.LoggedInUserEmail,Config.Scope).NewStateId();
+            var url = GetEndPoint(EndPointType.authorize)
+                + "?client_id=" + clientId
+                + "&response_type=" + response_type
+                + "&redirect_uri=" + redirect_uri
+                + "&response_mode=" + response_mode
+                + "&scope=" + Config.Scope
+                + "&state=" + stateId;
+            return url;
         }
 
         public AzureADAuthRestResponse<AccessTokenClass, OAuthError> GetAccessToken(string code, TokenRetrivalType tokenRetrivalType)
         {
-            _client = new RestClient(_tokenEndPoint);
+            RestClient  _client = new RestClient(GetEndPoint(EndPointType.authorize));
             _request = new RestRequest(Method.POST);
-            _request.AddParameter("client_id", _authConfig.ClientId);
-            _request.AddParameter("scope", _authConfig.Scope);
+            _request.AddParameter("client_id", Config.ClientId);
+            _request.AddParameter("scope", Config.Scope);
 
             if (tokenRetrivalType == TokenRetrivalType.AuthorizationCode)
             {
@@ -44,9 +63,9 @@ namespace Open.OAuthManager.AzureAD
                 _request.AddParameter("grant_type", "refresh_token");
             }
 
-            _request.AddParameter("redirect_uri", _authConfig.RedirectURL);
+            _request.AddParameter("redirect_uri", Config.RedirectURL);
 
-            _request.AddParameter("client_secret",_authConfig.ClientSecret);
+            _request.AddParameter("client_secret",Config.ClientSecret);
 
             IRestResponse response = _client.Execute(_request);
             AzureADAuthRestResponse<AccessTokenClass, OAuthError> resp = new AzureADAuthRestResponse<AccessTokenClass, OAuthError>();
@@ -67,14 +86,15 @@ namespace Open.OAuthManager.AzureAD
 
         public string GetAccessToken_FromClientCredential()
         {
-            _client.BaseUrl = new Uri(_tokenEndPoint);
+            RestClient _client = new RestClient();
+            _client.BaseUrl = new Uri(GetEndPoint(EndPointType.token));
             _request.Parameters.Clear();
             _request.Method = Method.POST;
-            _request.AddParameter("client_id", _authConfig.ClientId);
+            _request.AddParameter("client_id", Config.ClientId);
             _request.AddParameter("grant_type", "client_credentials");
-            _request.AddParameter("resource", _authConfig.Resource);
-            _request.AddParameter("client_secret", _authConfig.ClientSecret);
-            _request.AddParameter("scope", _authConfig.Scope);
+            _request.AddParameter("resource", Config.Resource);
+            _request.AddParameter("client_secret", Config.ClientSecret);
+            _request.AddParameter("scope", Config.Scope);
 
             var response = _client.Execute(_request);
             JObject obj = JObject.Parse(response.Content);
