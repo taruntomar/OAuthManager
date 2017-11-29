@@ -1,33 +1,29 @@
 ﻿using DatabaseDealer;
-using TTOAuthManager.Azure.Entities;
+using Open.OAuthManager.Azure.Entities;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TTOAuthManager.Azure
+
+namespace Open.OAuthManager.AzureAD
 {
-    public class AzureADE2EManager
+    public class AuthManager
     {
         private string _stateId;
         public AuthConfig Config { get; set; }
 
-        private StateIdManager _stateIdManager;
-        private OAuthLocalStorageManager _localStorage;
-        private AzureADAuthManager _azureADAuthManager;
+        private StateManager _stateIdManager;
+        private LocalStorageManager _localStorage;
+        private Authenticator _authenticator;
 
-        public AzureADE2EManager(AuthConfig config, DatabaseManager dbmanager)
+        public AuthManager(AuthConfig config, DatabaseManager dbmanager)
         {
             Config = config;
             Config.OAuthVersion = "oauth2/v2.0";
 
-            _stateIdManager = new StateIdManager(dbmanager,Config.LoggedInUserEmail,Config.Scope);
-            _stateId = _stateIdManager.GetStateId();
+            _stateIdManager = new StateManager(dbmanager,Config.LoggedInUserEmail,Config.Scope);
+            _stateId = _stateIdManager.GetStateIdForCurrentUser();
 
-            _localStorage = new OAuthLocalStorageManager(Config,dbmanager);
-            _azureADAuthManager = new AzureADAuthManager(Config);
+            _localStorage = new LocalStorageManager(Config,dbmanager);
+            _authenticator = new Authenticator(Config);
 
         }
         public AzureADAuthRestResponse<AccessTokenClass, OAuthErrors> GetAccessToken()
@@ -49,7 +45,7 @@ namespace TTOAuthManager.Azure
                     return resp;
 
                 }
-                var res = _azureADAuthManager.GetAccessToken(authcode.code, TokenRetrivalType.AuthorizationCode);
+                var res = _authenticator.GetAccessToken(authcode.code, TokenRetrivalType.AuthorizationCode);
                 // check for any error in response
                 if (res.IsSucceeded)
                 {
@@ -68,9 +64,9 @@ namespace TTOAuthManager.Azure
 
             }
             // check for token's validity, if expires then recalculate from refresh token
-            if (!_azureADAuthManager.validateToken(token))
+            if (!_authenticator.validateToken(token))
             {
-                var res = _azureADAuthManager.GetAccessToken(token.RefreshToken, TokenRetrivalType.RefreshToken);
+                var res = _authenticator.GetAccessToken(token.RefreshToken, TokenRetrivalType.RefreshToken);
                 // check for any error, if error is not present then cast to 
                 if (res.IsSucceeded)
                 {

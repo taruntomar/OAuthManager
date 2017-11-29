@@ -1,24 +1,25 @@
 ﻿using DatabaseDealer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TTOAuthManager.Azure
+namespace Open.OAuthManager.AzureAD
 {
-    class StateIdManager
+    class StateManager
     {
         private DatabaseManager _dbmanager;
         private string _loggedInUserMail;
         private string _scope;
-        public StateIdManager(DatabaseManager dbmanager,string loggedInUserMail, string scope)
+        public StateManager(DatabaseManager dbmanager,string loggedInUserMail, string scope)
         {
             _dbmanager = dbmanager;
             _loggedInUserMail = loggedInUserMail;
             _scope = scope;
         }
-        public string GetStateId()
+
+        public string NewStateId()
+        {
+            return Guid.NewGuid().ToString();
+        }
+        public string GetStateIdForCurrentUser()
         {
             // get current logged in name
             string stateid;
@@ -33,7 +34,7 @@ namespace TTOAuthManager.Azure
             }
             else
             {
-                stateid = Guid.NewGuid().ToString();
+                stateid = NewStateId();
                 _dbmanager.ExecuteSQLWriter("insert into UserAuthorizationScopeIds values('" + _loggedInUserMail + "','" + _scope + "','" + stateid + "')");
             }
             return stateid;

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
     <!-- Required elements-->
-    <id>TTOAuthManager</id>
+    <id>Open.OAuthManager</id>
     <version>1.0.0</version>
     <description>A library to facilitate authentication using OAuth protocol.</description>
     <authors>Tarun Kumar Tomar</authors>
@@ -17,6 +17,6 @@
     </metadata>
     <!-- Optional 'files' node -->
     <files>
-     <file src="bin/Release/TTOAuthManager.dll" target="lib/net45" />
+     <file src="bin/Release/Open.OAuthManager.dll" target="lib/net45" />
     </files>
 </package>

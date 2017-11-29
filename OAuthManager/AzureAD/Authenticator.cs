@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using TTOAuthManager.Azure.Entities;
+using Open.OAuthManager.Azure.Entities;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace TTOAuthManager
+namespace Open.OAuthManager.AzureAD
 {
-    public class AzureADAuthManager
+    public class Authenticator
     {
         private AuthConfig _authConfig;
         private string _authEndPoint;
@@ -18,7 +18,7 @@ namespace TTOAuthManager
         private RestClient _client;
         private RestRequest _request;
 
-        public AzureADAuthManager(AuthConfig config)
+        public Authenticator(AuthConfig config)
         {
             _authConfig = new AuthConfig();
             _authEndPoint = string.Format("{0}/{1}/{2}/authorize", _authConfig.baseUrl,_authConfig.TanentId, _authConfig.OAuthVersion);

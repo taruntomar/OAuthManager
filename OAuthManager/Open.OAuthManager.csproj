@@ -7,8 +7,8 @@
     <ProjectGuid>{480D5B71-B304-4E14-9D3A-3990DFF4A9BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TTOAuthManager</RootNamespace>
-    <AssemblyName>TTOAuthManager</AssemblyName>
+    <RootNamespace>Open.OAuthManager</RootNamespace>
+    <AssemblyName>Open.OAuthManager</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,19 +50,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Azure\Entities\AccessTokenClass.cs" />
-    <Compile Include="Azure\Entities\AccessTokenResult.cs" />
-    <Compile Include="Azure\Entities\OAuthError.cs" />
-    <Compile Include="Azure\Entities\OAuthErrors.cs" />
+    <Compile Include="AzureAD\Entities\AccessTokenClass.cs" />
+    <Compile Include="AzureAD\Entities\AccessTokenResult.cs" />
+    <Compile Include="AzureAD\Entities\OAuthError.cs" />
+    <Compile Include="AzureAD\Entities\OAuthErrors.cs" />
     <Compile Include="Entities\AuthCode.cs" />
     <Compile Include="AuthConfig.cs" />
-    <Compile Include="Azure\AzureADAuthManager.cs" />
-    <Compile Include="Azure\AzureADE2EManager.cs" />
-    <Compile Include="Azure\StateIdManager.cs" />
-    <Compile Include="OAuthLocalStorageManager.cs" />
+    <Compile Include="AzureAD\Authenticator.cs" />
+    <Compile Include="AzureAD\AuthManager.cs" />
+    <Compile Include="AzureAD\StateManager.cs" />
+    <Compile Include="Entities\GrantType.cs" />
+    <Compile Include="LocalStorageManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Azure\Entities\AzureADAuthRestResponse.cs" />
-    <Compile Include="TokenRetrivalType.cs" />
+    <Compile Include="AzureAD\Entities\AzureADAuthRestResponse.cs" />
+    <Compile Include="Entities\TokenRetrivalType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

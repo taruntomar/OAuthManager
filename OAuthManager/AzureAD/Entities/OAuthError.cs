@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TTOAuthManager.Azure.Entities
+namespace Open.OAuthManager.Azure.Entities
 {
     public partial class OAuthError
     {
