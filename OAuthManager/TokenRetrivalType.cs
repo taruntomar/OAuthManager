@@ -7,5 +7,11 @@
 
 
     }
-   
+    public enum GrantType
+    {
+        ClientCredential,
+        UserCredential
+
+
+    }
 }
