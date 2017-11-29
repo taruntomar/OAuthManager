@@ -1,12 +1,12 @@
 language: csharp
-solution: TTOAuthManager.sln
+solution: Open.OAuthManager.sln
 install:
   - curl -L -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-  - mono nuget.exe restore TTOAuthManager.sln
+  - mono nuget.exe restore Open.OAuthManager.sln
 # - mono nuget.exe install NUnit.Runners -Version 3.6.1 -OutputDirectory testrunner
 script:
-  - xbuild /p:Configuration=Release TTOAuthManager.sln
+  - xbuild /p:Configuration=Release Open.OAuthManager.sln
 #  - mono ./testrunner/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe ./<Project Name>Test/bin/Release/<Project Name>Test.dll
-  - mono nuget.exe pack ./OAuthManager/TTOAuthManager.nuspec -Version $MAJOR_VERSION_NUMBER.$MINOR_VERSION_NUMBER.$TRAVIS_BUILD_NUMBER
+  - mono nuget.exe pack ./OAuthManager/Open.OAuthManager.nuspec -Version $MAJOR_VERSION_NUMBER.$MINOR_VERSION_NUMBER.$TRAVIS_BUILD_NUMBER
   - mono nuget.exe setApiKey $NUGET_API_KEY -Source https://www.nuget.org -Verbosity quiet
-  - mono nuget.exe push TTOAuthManager.$MAJOR_VERSION_NUMBER.$MINOR_VERSION_NUMBER.$TRAVIS_BUILD_NUMBER.nupkg -Source https://www.nuget.org/api/v2/package  
+  - mono nuget.exe push Open.OAuthManager.$MAJOR_VERSION_NUMBER.$MINOR_VERSION_NUMBER.$TRAVIS_BUILD_NUMBER.nupkg -Source https://www.nuget.org/api/v2/package  
