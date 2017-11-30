@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureAD\Entities\EndPointType.cs" />
     <Compile Include="AzureAD\Entities\AccessTokenClass.cs" />
     <Compile Include="AzureAD\Entities\AccessTokenResult.cs" />
     <Compile Include="AzureAD\Entities\OAuthError.cs" />
@@ -57,7 +58,7 @@
     <Compile Include="Entities\AuthCode.cs" />
     <Compile Include="AuthConfig.cs" />
     <Compile Include="AzureAD\Authenticator.cs" />
-    <Compile Include="AzureAD\AuthManager.cs" />
+    <Compile Include="AzureAD\AuthenticatorV2.cs" />
     <Compile Include="AzureAD\StateManager.cs" />
     <Compile Include="Entities\GrantType.cs" />
     <Compile Include="LocalStorageManager.cs" />

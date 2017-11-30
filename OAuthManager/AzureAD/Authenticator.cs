@@ -3,19 +3,15 @@ using Open.OAuthManager.Azure.Entities;
 using RestSharp;
 using System;
 using Newtonsoft.Json.Linq;
+using Open.OAuthManager.AzureAD.Entities;
 
 namespace Open.OAuthManager.AzureAD
 {
-    public enum EndPointType
-    {
-        authorize,
-        token
-    }
     public class Authenticator
     {
         public AuthConfig Config { get; set; }
         
-        private RestRequest _request;
+        protected RestRequest _request;
 
         public Authenticator()
         {
