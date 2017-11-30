@@ -22,12 +22,12 @@ namespace Open.OAuthManager.AzureAD
         private string  GetEndPoint(EndPointType endPointType)
         {
             string endpointype = endPointType == EndPointType.authorize ? "authorize" : "token";
-            return string.Format("{0}/{1}/{2}/{3}", Config.baseUrl, Config.TanentId, Config.OAuthVersion, endpointype); 
+            return string.Format("{0}/{1}/{2}/{3}", Config.Authority, Config.TanentId, Config.OAuthVersion, endpointype); 
         }
 
-        public string GetAuthorizationCodeUrl(string baseUrl,string tanentId,string clientId,string scope,string response_type,string redirect_uri,string response_mode)
+        public string GetAuthorizationCodeUrl(string authority,string tanentId,string clientId,string scope,string response_type,string redirect_uri,string response_mode)
         {
-            Config.baseUrl = baseUrl;
+            Config.Authority = authority;
             Config.TanentId = tanentId;
             Config.Scope = scope;
             string stateId = new StateManager(Config.LoggedInUserEmail,Config.Scope).NewStateId();

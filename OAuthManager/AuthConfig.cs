@@ -11,7 +11,7 @@ namespace Open.OAuthManager
         public string LoggedInUserEmail { get; set; }
         public string Scope { get; set; }
         public string TanentId { get; set; }
-        public string baseUrl { get; set; }
+        public string Authority { get; set; }
         public string OAuthVersion { get; set; }
         public string RedirectURL { get; set; }
         public string ClientId { get; set; }
