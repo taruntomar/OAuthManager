@@ -2,7 +2,6 @@
 using Open.OAuthManager.Azure.Entities;
 using RestSharp;
 using System;
-using Newtonsoft.Json.Linq;
 using Open.OAuthManager.AzureAD.Entities;
 
 namespace Open.OAuthManager.AzureAD
@@ -80,7 +79,7 @@ namespace Open.OAuthManager.AzureAD
             return resp;
         }
 
-        public string GetAccessToken_FromClientCredential()
+        public AzureADAuthRestResponse<AccessTokenClass, OAuthError> GetAccessToken_FromClientCredential()
         {
             RestClient _client = new RestClient();
             _client.BaseUrl = new Uri(GetEndPoint(EndPointType.token));
@@ -93,10 +92,21 @@ namespace Open.OAuthManager.AzureAD
             _request.AddParameter("scope", Config.Scope);
 
             var response = _client.Execute(_request);
-            JObject obj = JObject.Parse(response.Content);
-
-            string x = obj["access_token"].ToString();
-            return x;
+            AzureADAuthRestResponse<AccessTokenClass, OAuthError> resp = new AzureADAuthRestResponse<AccessTokenClass, OAuthError>();
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                OAuthError error = JsonConvert.DeserializeObject<OAuthError>(response.Content, Converter.Settings);
+                resp.Error = error;
+                resp.IsSucceeded = false;
+            }
+            else
+            {
+                AccessTokenClass result = JsonConvert.DeserializeObject<AccessTokenClass>(response.Content, Converter.Settings);
+                resp.Result = result;
+                resp.IsSucceeded = true;
+            }
+            
+            return resp;
 
         }
         public void SetAuthorizationHeader(RestRequest request,string bearer)

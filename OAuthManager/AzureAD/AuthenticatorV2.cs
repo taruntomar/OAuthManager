@@ -12,12 +12,12 @@ namespace Open.OAuthManager.AzureAD
     public class AuthenticatorV2:Authenticator
     {
         
-        public AzureADAuthRestResponse<AccessTokenClass, OAuthErrors> GetAccessToken_UserCredential(DatabaseManager dbmanager)
+        public AzureADAuthRestResponse<AccessTokenClass, OAuthError> GetAccessToken_UserCredential(DatabaseManager dbmanager)
         {
             StateManager _stateIdManager = new StateManager(Config.LoggedInUserEmail, Config.Scope);
             LocalStorageManager _localStorage = new LocalStorageManager(Config, dbmanager);
             string _stateId = _stateIdManager.GetStateIdForCurrentUser(dbmanager);
-            var resp = new AzureADAuthRestResponse<AccessTokenClass, OAuthErrors>();
+            var resp = new AzureADAuthRestResponse<AccessTokenClass, OAuthError>();
             // try to look for the available token first
             // if token not available then use authorize code to download it
             // if token expires then download new token using refresh token and store in database
@@ -29,7 +29,7 @@ namespace Open.OAuthManager.AzureAD
                 AuthCode authcode = _localStorage.GetAuthCode(_stateId);
                 if (authcode == null)
                 {
-                    resp.Error = OAuthErrors.AuthCodeNotFound;
+                    resp.OAuthError = OAuthErrors.AuthCodeNotFound;
                     return resp;
 
                 }
@@ -45,7 +45,7 @@ namespace Open.OAuthManager.AzureAD
                 else
                 {
                     // send status to front page that it is not authorized, authorization code has expired
-                    resp.Error = OAuthErrors.AuthCodeExpires;
+                    resp.OAuthError = OAuthErrors.AuthCodeExpires;
                     return resp;
 
                 }
@@ -64,7 +64,7 @@ namespace Open.OAuthManager.AzureAD
                 }
             }
             resp.Result = token;
-            resp.Error = OAuthErrors.None;
+            resp.OAuthError = OAuthErrors.None;
             return resp;
 
         }
