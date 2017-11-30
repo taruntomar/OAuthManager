@@ -10,8 +10,6 @@ namespace Open.OAuthManager.AzureAD
     {
         public AuthConfig Config { get; set; }
         
-        protected RestRequest _request;
-
         public Authenticator()
         {
             Config = new AuthConfig();
@@ -43,6 +41,7 @@ namespace Open.OAuthManager.AzureAD
         public AzureADAuthRestResponse<AccessTokenClass, OAuthError> GetAccessToken(string code, TokenRetrivalType tokenRetrivalType)
         {
             RestClient  _client = new RestClient(GetEndPoint(EndPointType.authorize));
+            RestRequest _request = new RestRequest();
             _request = new RestRequest(Method.POST);
             _request.AddParameter("client_id", Config.ClientId);
             _request.AddParameter("scope", Config.Scope);
@@ -82,6 +81,7 @@ namespace Open.OAuthManager.AzureAD
         public AzureADAuthRestResponse<AccessTokenClass, OAuthError> GetAccessToken_FromClientCredential()
         {
             RestClient _client = new RestClient();
+            RestRequest _request = new RestRequest();
             _client.BaseUrl = new Uri(GetEndPoint(EndPointType.token));
             _request.Parameters.Clear();
             _request.Method = Method.POST;
