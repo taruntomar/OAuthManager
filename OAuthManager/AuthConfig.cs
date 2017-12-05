@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace Open.OAuthManager
 {
+    ///<summary>
+    /// Configuration Class - It store all config details
+    /// <code>
+    /// AuthConfig config = new AuthConfig();
+    /// config.LoggedInUserEmail = "exampleuser@host.com"
+    /// 
+    /// </code>
+    ///</summary>
     public class AuthConfig
     {
         public string LoggedInUserEmail { get; set; }

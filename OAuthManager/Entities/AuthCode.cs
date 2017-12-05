@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Open.OAuthManager
+namespace Open.OAuthManager.Entities
 {
     public class AuthCode
     {
