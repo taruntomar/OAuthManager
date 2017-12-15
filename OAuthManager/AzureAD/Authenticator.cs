@@ -78,8 +78,14 @@ namespace Open.OAuthManager.AzureAD
             return resp;
         }
 
-        public AzureADAuthRestResponse<AccessTokenClass, OAuthError> GetAccessToken_FromClientCredential()
+        public AzureADAuthRestResponse<AccessTokenClass, OAuthError> GetAccessToken_FromClientCredential(string clientId, string resource, string clientSecret, string scope)
         {
+            Config.ClientId = clientId;
+            Config.Resource = resource;
+            Config.ClientSecret = clientSecret;
+            Config.Scope = scope;
+               
+
             RestClient _client = new RestClient();
             RestRequest _request = new RestRequest();
             _client.BaseUrl = new Uri(GetEndPoint(EndPointType.token));
