@@ -1,5 +1,6 @@
 ﻿using DatabaseDealer;
 using Open.OAuthManager.Azure.Entities;
+using Open.OAuthManager.Entities;
 using System;
 using System.Linq;
 
